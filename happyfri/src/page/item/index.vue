@@ -15,6 +15,7 @@ export default {
   	},
   	created(){
       //进入题目页面，开始计时
+      console.log(this.$store);
   		this.$store.commit('REMBER_TIME');
     },
     computed: { // 1.0复杂逻辑  应该使用此属性  计算值  在此处算好后 再去模板渲染  https://cn.vuejs.org/v2/guide/computed.html  Bingo!

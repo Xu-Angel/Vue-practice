@@ -12,6 +12,7 @@
     		<div class="item_back item_container_style">
     			<div class="item_list_container" v-if="itemDetail.length > 0">
     				<header class="item_title">{{itemDetail[itemNum-1].topic_name}}</header>
+        <div>{{testGetters}}</div>
     				<ul>
     					<li  v-for="(item, index) in itemDetail[itemNum-1].topic_answer" @click="choosed(index, item.topic_answer_id)" class="item_list">
     						<span class="option_style" v-bind:class="{'has_choosed':choosedNum==index}">{{chooseType(index)}}</span>
@@ -27,7 +28,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
 	name: 'itemcontainer',
 	data() {
@@ -38,12 +39,18 @@ export default {
 		}
 	},
   	props:['fatherComponent'],  // 利用props 关联起来 实例后的组件
-  	computed: mapState([     // 状态管理
-	  	'itemNum', //第几题
-  		'level', //第几周
+    computed:{
+    ...mapGetters([// mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性：
+      'testTwo',
+      'testGetters'
+    ]),
+    ...mapState([     // 辅助函数：mapState 状态管理  在组件中展示状态 依赖于全局状态单例
+    // 当映射的计算属性的名称与 state 的子节点名称相同时，我们也可以给 mapState 传一个字符串数组:
+	  	'itemNum', //第几 映射为 store.state.itemNum
+  		'level', //第几周 映射为 store.state.level
   		'itemDetail', //题目详情
   		'timer', //计时器
-	]),
+  ])},
   	methods: {
   		...mapActions([
   			'addNum', 'initializeData',

@@ -2,9 +2,11 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import mutations from './mutations'
 import actions from './action'
+import getters from './getters'
 import ajax from '../config/ajax'
 
 
+// 提供了一种机制将状态从根组件“注入”到每一个子组件中（需调用 Vue.use(Vuex)）：
 Vue.use(Vuex)
 
 const state = {
@@ -172,7 +174,8 @@ const state = {
 }
 
 export default new Vuex.Store({
-	state,
+  state,
+  getters,
 	actions,
 	mutations
 })
