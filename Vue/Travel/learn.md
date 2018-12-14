@@ -17,3 +17,17 @@ mounted: function () {
   this.bus.$on()
   }
 ```
+组件问题：
+  标签规范：is 替换代表 is="XXX组件"
+  ref="XXX" 指代DOM this.$refs.XXX  ref  代表引用 可以代表组件 DOM等
+V-ONCE 写入热内存中 只渲染元素和组件一次。随后的重新渲染，元素/组件及其所有的子节点将被视为静态内容并跳过。这可以用于优化更新性能。
+
+```
+动画：
+多组件/元素   CSS/JS 钩子   translation-group
+动画封装：组件内控制 配合slot
+动态过渡：通过变量双向绑定  状态过渡
+```
+```
+
+```
