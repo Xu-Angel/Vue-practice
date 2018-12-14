@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <p>V-once</p>
+  <p>V-ONCE 写入热内存中 只渲染元素和组件一次。随后的重新渲染，元素/组件及其所有的子节点将被视为静态内容并跳过。这可以用于优化更新性能。</p>
+  <div id="root">
+    <component :is="type"></component> <!-- component 为内置组件  可以动态的切换组件 -->
+  <!-- <child-one v-if="type === 'child-one'"></child-one>
+  <child-two v-if="type === 'child-two'"></child-two> -->
+  <button @click="handleBtnClick">change</button>
+  </div>
+  <script>
+
+  Vue.component('child-one', {
+    template: `
+    <div v-once>one
+      </div>`,
+  })
+
+  Vue.component('child-two', {
+    template: `
+    <div v-once>two
+      </div>`,
+  })
+  var vm = new Vue({
+    el: '#root',
+    data: {
+      type: 'child-one'
+    },
+    methods: {
+      handleBtnClick: function () {
+        this.type = (this.type === 'child-one' ? 'child-two' : 'child-one')
+      }
+    }
+  })
+
+  </script>
+</body>
+</html>

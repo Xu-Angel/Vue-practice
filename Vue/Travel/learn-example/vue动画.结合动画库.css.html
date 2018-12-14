@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  </style>
+  <script src="./vue.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div id="root">
+      <transition
+      name="custom-classes-transition"
+      appear
+      type="transition"
+      :duration="{enter: 5000, leave:1000}"
+      enter-active-class="animated tada"
+      leave-active-class="animated bounceOutRight"
+      appear-active-class="animated swing"
+    >
+      <p v-if="show">hello</p>
+    </transition>
+  <button @click="handleBtnClick">change</button>
+  </div>
+  <script>
+  var vm = new Vue({
+    el: '#root',
+    data: {
+      show: true
+    },
+    methods: {
+      handleBtnClick: function () {
+        this.show = !this.show
+      }
+    }
+  })
+
+  </script>
+</body>
+</html>

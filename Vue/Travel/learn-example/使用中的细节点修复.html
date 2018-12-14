@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <table>
+      <tbody>
+        <tr is="row"></tr><!--  使用is 替代这个组件的名称 符合HTML标签规范  又代表了这特指个组件-->
+        <row></row>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    Vue.component('row', {
+      template: '<tr><td> this is a row</td></tr>'
+    })
+  var vm = new Vue({
+    el: '#root'
+  })
+  /*
+  <div id="root"><tr><td> this is a row</td></tr><table><tbody><tr><td> this is a row</td></tr></tbody></table></div>
+  */
+  </script>
+</body>
+</html>

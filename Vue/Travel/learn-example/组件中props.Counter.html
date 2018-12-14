@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <counter :count="1"></counter> <!--  -->
+    <counter :count="2"></counter>
+    <div>{{total}}</div>
+  </div>
+  <script>
+  var counter = { /*  */
+    props: ['count'],
+    template: '<div @click="handleClick">{{count}}</div>',
+    methods: {
+      handleClick: function () {
+        // this.count ++   子組件不應該直接修改父組件的數據  單項數據流的思想
+      }
+    }
+  }
+  var vm = new Vue({
+    el: '#root',
+    components: {
+      counter
+    },
+    data: function () {
+      return {
+        total: 0
+      }
+    }
+  })
+  /*
+  <div id="root"><tr><td> this is a row</td></tr><table><tbody><tr><td> this is a row</td></tr></tbody></table></div>
+  */
+  </script>
+</body>
+</html>

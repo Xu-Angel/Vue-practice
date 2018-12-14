@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <div ref="hello" @click="handleClick"
+    >
+    hello
+    </div>
+  </div>
+  <script>
+  var vm = new Vue({
+    el: '#root',
+    methods: {
+      handleClick: function () {
+        // 使用ref  指代这个dom
+        // alert('click')
+        console.log(this.$refs.hello); // <div>
+    // hello
+    // </div>
+      }
+    }
+  })
+  /*
+  <div id="root"><tr><td> this is a row</td></tr><table><tbody><tr><td> this is a row</td></tr></tbody></table></div>
+  */
+  </script>
+</body>
+</html>

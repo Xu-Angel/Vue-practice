@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <p>作用域插槽</p>
+  <div id="root">
+    <child><!-- 作用域插槽  以template 开头和结尾 -->
+      <template slot-scope="props"><!-- 要声明数据放在哪里 eg: props -->
+        <li>{{props.item}}</li>
+      </template>
+    </child>
+    <child>
+      <template slot-scope="props">
+        <h1>{{props.item}}</h1>
+      </template>
+    </child>
+  </div>
+  <script>
+
+  Vue.component('child', {
+    data: function () {
+      return {
+        list: [1, 2, 3, 4]
+      }
+    },
+    template: `
+    <div >
+     <ul>
+      <slot
+        v-for="item of list"
+        :item = item
+      >
+        </slot>
+      </ul>
+      </div>`,
+  })
+  var vm = new Vue({
+    el: '#root',
+  })
+
+  </script>
+</body>
+</html>
