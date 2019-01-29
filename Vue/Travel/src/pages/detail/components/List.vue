@@ -10,7 +10,7 @@
         {{item.title}}
       </div>
       <div v-if="item.children" class="item-chilren">
-        <detail-list :list="item.children"></detail-list>
+        <detail-list :list="item.children"></detail-list> // 递归组件 使用自己
       </div>
     </div>
   </div>

@@ -36,3 +36,5 @@ Router-view -->   Router ->(path) -> name:path? -> path.vue
 router-link: 包裹起来（点击的内容和本标签）
 <router-link to="/list">去列表</router-link>
 ```
+// 总结：
+推荐学习顺序L: 过完基础Api->Vue-Router->VueX->SSR->Vue-推荐资源（awesome-vue）->源码
