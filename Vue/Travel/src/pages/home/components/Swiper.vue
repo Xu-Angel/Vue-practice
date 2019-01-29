@@ -32,6 +32,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+// >>> 样式穿透 跳过 scoped
   .wrapper >>> .swiper-pagination-bullet-active
     background: #fff
   .wrapper
