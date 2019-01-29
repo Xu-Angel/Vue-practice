@@ -16,11 +16,11 @@ export default new Router({
     name: 'City',
     component: City
   }, {
-    path: '/detail/:id',
+    path: '/detail/:id', // 动态路由参数
     name: 'Detail',
     component: Detail
   }],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior (to, from, savedPosition) { // 每次页面切换的时候  重置页面位置
     return { x: 0, y: 0 }
   }
 })
