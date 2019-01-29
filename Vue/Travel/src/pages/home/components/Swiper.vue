@@ -37,8 +37,8 @@ export default {
   .wrapper
     overflow: hidden
     width: 100%
-    height: 0
-    padding-bottom: 31.25%
+    height: 0   // 不能设置高度31.25，高度是相对上个容器的比例
+    padding-bottom: 31.25% // 高度设为0，利用padding-bottom  达成自适应款高比 600：200
     background: #eee
     .swiper-img
       width: 100%
