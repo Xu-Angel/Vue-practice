@@ -12,7 +12,10 @@ module.exports = {
     assetsPublicPath: '/project',
     proxyTable: {
       '/api': {
-        target: 'http://localhost:80'
+        target: 'http://localhost:8080',
+        pathRewrite: {
+          '^/api': '/static/mock'
+        }
       }
     },
 
@@ -54,7 +57,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/', // 打包后在后端的目录存前端的地方 如/project
 
     /**
      * Source Maps
