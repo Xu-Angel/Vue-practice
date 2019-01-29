@@ -56,7 +56,7 @@ export default {
           const touchY = e.touches[0].clientY - 79
           const index = Math.floor((touchY - this.startY) / 20)
           if (index >= 0 && index < this.letters.length) {
-            this.$emit('change', this.letters[index])
+            this.$emit('change', this.letters[index]) // 父子通信
           }
         }, 16)
       }

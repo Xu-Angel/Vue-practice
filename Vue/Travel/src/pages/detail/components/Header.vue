@@ -44,10 +44,10 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted () { // 绑定事件
     window.addEventListener('scroll', this.handleScroll)
   },
-  unmounted () {
+  unmounted () {  //组件出来后 解绑事件 全局事件
     window.removeEventListener('scroll', this.handleScroll)
   }
 }

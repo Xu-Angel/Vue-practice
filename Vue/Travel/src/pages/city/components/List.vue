@@ -55,7 +55,7 @@ export default {
     letter: String
   },
   computed: {
-    ...mapState({
+    ...mapState({ // 映射
       currentCity: 'city'
     })
   },

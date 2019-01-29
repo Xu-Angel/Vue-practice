@@ -9,7 +9,7 @@
     ></city-list>
     <city-alphabet
       :cities="cities"
-      @change="handleLetterChange"
+      @change="handleLetterChange" //父子通信
     ></city-alphabet>
   </div>
 </template>
