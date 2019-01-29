@@ -29,5 +29,10 @@ V-ONCE 写入热内存中 只渲染元素和组件一次。随后的重新渲染
 动态过渡：通过变量双向绑定  状态过渡
 ```
 ```
+<router-view></router-view>
+单文件组件：
+Router-view -->   Router ->(path) -> name:path? -> path.vue
 
+router-link: 包裹起来（点击的内容和本标签）
+<router-link to="/list">去列表</router-link>
 ```
