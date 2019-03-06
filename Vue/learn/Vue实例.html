@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+   <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <p >{{foo}}</p>
+    <!-- 这里的 `foo` 不会更新！ -->
+    <button v-on:click=" foo = 'baz'">点击</button>
+  </div>
+  <div id="app2">
+    <p>{{a}}</p>
+    <button v-on:click=" a = 'baz'">点击</button>
+  </div>
+</body>
+<script>
+  var obj = {
+    foo: 'bar'
+  }
+  Object.freeze(obj) // 其实就是 v-once
+var app = new Vue({
+  el: '#app',
+  /* data:{
+    ...obj,
+    a: 1
+  } */
+  data:obj
+})
+var app2 = new Vue({
+  el: '#app2',
+  data:{
+    ...obj,
+    a: 1
+  },
+  created() { // this 指向vue 实例app2
+    console.log(this.a);
+  }
+})
+// vm.$data === data // => true
+// vm.$el === document.getElementById('example') // => true
+console.log(app2.$data, app2.$el);
+app2.$watch('a', (old, ew) => {
+  //  // 这个回调将在 `vm.a` 改变后调用
+  console.log(old, ew, 'wathc');
+})
+</script>
+</html>

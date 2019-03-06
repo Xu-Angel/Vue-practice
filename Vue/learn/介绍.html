@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    {{message}}<!-- 文本插值 -->
+  </div>
+  <div id="app2">
+    <span v-bind:title="message2">
+      <!-- 绑定属性元素 -->
+      鼠标悬停几秒钟查看此处动态绑定的提示信息！
+    </span>
+  </div>
+  <div id="app3">
+    <button v-on:click="showMessage">on 指令</button>
+    <span>{{showmessage}}</span>
+    {{vnode}}
+    {{$vnode}}<!-- 不会被渲染出来 -->
+    <ol>
+      <li v-for="item in todo">
+        <!-- 在控制台里，输入 app3.todos.push({ text: '新项目' }) -->
+        {{item.text}}
+      </li>
+    </ol>
+  </div>
+  <div id="app4">
+    <!-- 组件模板 -->
+    <ol>
+      <todo-item 
+      v-for="item in list"
+      v-bind:todo="item"
+      v-bind:key="item.id"
+      ></todo-item>
+    </ol>
+  </div>
+</body>
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'hello vuw'
+    }
+  })
+  var app2 = new Vue({
+    el: '#app2',
+    data: {
+      message2: '现在时间是' + new Date().toLocaleString()
+    }
+  })
+  var app3 = new Vue({
+    el: '#app3',
+    data: {
+      todo: [
+        { text: 'JavaScrit' },
+        { text: 'Python' },
+        { text: 'Java' }
+      ],
+      vnode: 'testVnode',
+      $vnode: '$testVnode',
+      showmessage: null
+    },
+    methods: {
+      showMessage() {
+        this.showmessage = 'hi'
+      }
+    }
+  })
+  Vue.component('todo-item', {
+    props: ['todo'],
+    template: '<li>{{todo.text}}</li>'
+
+  })
+  var app4 = new Vue({
+    el: '#app4',
+    data: {
+      list: [
+        { id: 0, text: '蔬菜' },
+        { id: 1, text: '奶酪' },
+        { id: 2, text: '随便其它什么人吃的东西' }
+      ]
+    }
+  })/* 
+  与自定义元素的关系
+你可能已经注意到 Vue 组件非常类似于自定义元素——它是 Web 组件规范的一部分，这是因为 Vue 的组件语法部分参考了该规范。例如 Vue 组件实现了 Slot API 与 is 特性。但是，还是有几个关键差别：
+
+Web Components 规范已经完成并通过，但未被所有浏览器原生实现。目前 Safari 10.1+、Chrome 54+ 和 Firefox 63+ 原生支持 Web Components。相比之下，Vue 组件不需要任何 polyfill，并且在所有支持的浏览器 (IE9 及更高版本) 之下表现一致。必要时，Vue 组件也可以包装于原生自定义元素之内。
+
+Vue 组件提供了纯自定义元素所不具备的一些重要功能，最突出的是跨组件数据流、自定义事件通信以及构建工具集成。 */
+</script>
+
+</html>

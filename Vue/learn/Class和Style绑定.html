@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 对象语法 -->
+    <div :class="{active: isActive}">
+      <div calss="default" :class="{active : isActive}">
+      </div>
+    </div>
+    <div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">class*2</div>
+    <div v-bind:class="classObject">classObject</div>
+    <div v-bind:class="cupClassObject">cupClassObject</div>
+  </div>
+  <div id="app2">
+    <!-- 数组语法 -->
+    <div :class="[activeClass, errorClass]"></div>
+    <div :class="[isActive ? activeClass : '', errorClass]"></div>
+    <div :class="[obj, errorClass]"></div><!-- 数组里面混合对象 -->
+    <div v-bind:class="[{ active: isActive }, errorClass]"></div>
+    <my-component class="baz boo"></my-component><!-- 在组件中  -->
+    <my-component v-bind:class="{ active: isActive }"></my-component><!-- 在组件中 -->
+    <div :style="{ color: activeColor, fontSize: fontSize + 'px' }">dddd</div><!-- CSS 属性名可以用驼峰式 (camelCase) 或短横线分隔 (kebab-case，记得用单引号括起来) 来命名： -->
+    <div :style="styleObject">dd</div>
+    <div :style="[baseStyle, overridingStyles]">ddddd</div><!-- 的数组语法可以将多个样式对象应用到同一个元素上：这里的覆盖不是CSS中的覆盖 -->
+    <div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">dddyyy</div><!-- 这样写只会渲染数组中最后一个被浏览器支持的值。在本例中，如果浏览器支持不带浏览器前缀的 flexbox，那么就只会渲染 display: flex。 -->
+  </div>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        isActive: true,
+        hasError: false,
+        error: null,
+        classObject: {
+          active: true,
+          'text-danger': false
+        }
+      },
+      computed: {
+        cupClassObject() {
+          /* 渲染的结果和上面一样。我们也可以在这里绑定一个返回对象的计算属性。这是一个常用且强大的模式： */
+          return {
+            active: this.isActive && !this.error,
+            'text-danger': this.error && this.error.type === 'fatal'
+          }
+        }
+      }
+    })
+    Vue.component('my-component', {
+      template: '<p class="foo bar">Hi</p>'
+    })
+    var vm2 = new Vue({
+      el: '#app2',
+      data: {
+        activeClass: 'active',
+        errorClass: 'text-danger',
+        isActive: false,
+        error: false,
+        activeColor: 'red',
+        fontSize: 30,
+        styleObject: {
+          colr: 'blue',
+          fontSize: '13px'
+        },
+        baseStyle: {
+          fontSize: '50px !important',
+          color: 'gray',
+        },
+        overridingStyles: {
+          fontSize: '14px',
+          color: 'blue',
+          backgroundColor: 'gray',
+          transform: 'translateY(100%)',/* 当 v-bind:style 使用需要添加浏览器引擎前缀的 CSS 属性时，如 transform，Vue.js 会自动侦测并添加相应的前缀。 */
+        }
+      },
+      computed: {
+        obj() {
+          /* 渲染的结果和上面一样。我们也可以在这里绑定一个返回对象的计算属性。这是一个常用且强大的模式： */
+          return {
+            active: !this.isActive && !this.error,
+            'text-danger': this.error && this.error.type === 'fatal'
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+   <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- 一些指令能够接收一个“参数”，在指令名称之后以冒号表示。例如，v-bind 指令可以用于响应式地更新 HTML 特性： -->
+    <a v-bind:href="url">...</a><!-- 在这里 href 是参数，告知 v-bind 指令将该元素的 href 特性与表达式 url 的值绑定。 -->
+    <a v-on:click.prevent="doSomething">...</a><!-- 另一个例子是 v-on 指令，它用于监听 DOM 事件：在这里参数是监听的事件名。我们也会更详细地讨论事件处理。 -->
+    <a :href="url">...</a><!-- v-bind:简写-->
+    <a @click.prevent="doSomething">...</a><!-- v-on：click 简写 -->
+    <!-- 修饰符 .prevent-->
+    <a v-on:[eventname]="dod">{{eventName}}</a><!-- 动态参数 -->
+    <p>{{Date()}}</p>
+    <p>{{Math.floor(Math.random()) + (Date())}}</p>
+      <p>Using mustaches: {{ rawHtml }}</p>
+      <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+  </div>
+</body>
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    rawHtml: '<span style="color:red">this is red</span>',
+    eventname: 'click',
+    eventName: 'focuss',
+    url:'dd'
+  },
+  methods: {
+    dod() {
+      this.eventName = 'leave'
+    },
+    doSomething() {}
+  }
+})
+// ! 动态参数！！！https://cn.vuejs.org/v2/guide/syntax.html#%E5%8A%A8%E6%80%81%E5%8F%82%E6%95%B0
+/* 
+在我们的模板中，我们一直都只绑定简单的属性键值。但实际上，对于所有的数据绑定，Vue.js 都提供了完全的 JavaScript 表达式支持。
+
+{{ number + 1 }}
+
+{{ ok ? 'YES' : 'NO' }}
+
+{{ message.split('').reverse().join('') }}
+
+<div v-bind:id="'list-' + id"></div>
+这些表达式会在所属 Vue 实例的数据作用域下作为 JavaScript 被解析。有个限制就是，每个绑定都只能包含单个表达式，所以下面的例子都不会生效。
+
+<!-- 这是语句，不是表达式 -->
+{{ var a = 1 }}
+
+<!-- 流控制也不会生效，请使用三元表达式 -->
+{{ if (ok) { return message } }}
+ 模板表达式都被放在沙盒中，只能访问全局变量的一个白名单，如 Math 和 Date 。你不应该在模板表达式中试图访问用户定义的全局变量。
+ */
+</script>
+</html>
