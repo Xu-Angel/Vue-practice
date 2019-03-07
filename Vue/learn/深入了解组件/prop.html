@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <p>大小写问题：在js 中声明的时候 是camleCase，在html 中就使用kebab-case</p>
+  <p>若果在字符串模板中则不受限制</p>
+  <p>Prop类型数组和对象</p>
+  <p>Prop 中静态和动态的传值；对于值的类型不受限制</p>
+  <blog title="xxx"></blog>
+  <blog :title="post.title"></blog>
+  <blog :title="post.title + 'by' + post.content"></blog>
+  <p>单项数据流：prop 中是单向下行绑定</p>
+  <p>父级 prop 的更新会向下流动到子组件中，但是反过来则不行。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。
+
+    额外的，每次父级组件发生更新时，子组件中所有的 prop 都将会刷新为最新的值。这意味着你不应该在一个子组件内部改变 prop。如果你这样做了，Vue 会在浏览器的控制台中发出警告。</p>
+  <strong style="color:red">
+    注意在 JavaScript 中对象和数组是通过引用传入的，所以对于一个数组或对象类型的 prop 来说，在子组件中改变这个对象或数组本身将会影响到父组件的状态。
+  </strong>
+  <h3>非Prop的特性？？</h3>
+    <p>都会自动添加到组件的根元素上；因为显式定义的 prop 适用于向一个子组件传入信息，然而组件库的作者并不总能预见组件会被用于怎样的场景。这也是为什么组件可以接受任意的特性，而这些特性会被添加到这个组件的根元素上。</p>
+      <h4>替换/合并已有的属性？？</h4>
+  <p> 我们定义了两个不同的 class 的值：
+
+      form-control，这是在组件的模板内设置好的
+      date-picker-theme-dark，这是从组件的父级传入的
+      对于绝大多数特性来说，从外部提供给组件的值会替换掉组件内部设置好的值。所以如果传入 type="text" 就会替换掉 type="date" 并把它破坏！庆幸的是，class 和 style 特性会稍微智能一些，即两边的值会被合并起来，从而得到最终的值：form-control date-picker-theme-dark。</p>
+      <div id="app">
+          <base-input
+          v-model="username"
+          required
+          placeholder="Enter your username"
+        ></base-input>
+        <span>{{username}}</span>
+      </div>
+</body>
+<script>
+  function Person(f, l) {
+    this.f = f
+    this.l = l
+  }
+  Vue.component('blog-post', {/* type 还可以是一个自定义的构造函数，并且通过 instanceof 来进行检查确认。例如，给定下列现成的构造函数： */
+  props: {
+    author: Person // 来验证 author prop 的值是否是通过 new Person 创建的。
+  }
+})
+  Vue.component('my-con', {
+    // 注意那些 prop 会在一个组件实例创建之前进行验证，所以实例的属性 (如 data、computed 等) 在 default 或 validator 函数中是不可用的。
+    props: {
+      propA: Number,
+      propB: [String, Number],
+      propC: {
+        type: String,
+        required: true
+      },
+      propD: {
+        default: 1,
+        type: Number,
+        required: true
+      },
+      propE: {
+        type: Object,
+        default: () => { message: 'hello' } // 对象或数组默认值必须从一个工厂函数获取
+      },
+      propF: {
+        type: Array,
+        default: () => [1, 2, 3, 4]
+      },
+      propG: { // 自定义验证函数
+        validator: v => ['success', 'warning', 'danger'].indexof(v) !== -1 // 这个值必须匹配下列字符串中的一个
+      },
+      propsH: {
+        type: Person
+      }
+    }
+  })
+  Vue.component('base-input', {
+    inheritAttrs: false, // 如果你不希望组件的根元素继承特性，你可以在组件的选项中设置 inheritAttrs: false。注意 inheritAttrs: false 选项不会影响 style 和 class 的绑定。这个模式允许你在使用基础组件的时候更像是使用原始的 HTML 元素，而不会担心哪个元素是真正的根元素：
+    props: ['label', 'value'],
+    template: `
+    <label>
+    {{label}}
+    <input
+    v-bind="$attrs"
+    v-bind:value="value"
+    v-on: input="$emit('input', $event.target.value)"
+    >
+    </label>
+    `
+  })
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      username: 'kitty'
+    }
+  })
+</script>
+
+</html>

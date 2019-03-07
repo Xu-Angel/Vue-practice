@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <navigation-link url="/profile">
+      profilexxx
+    </navigation-link>
+    <navigation-link url="/profile">
+    </navigation-link>
+    <navigation url="/profile">
+      profilexxx
+    </navigation>
+    <navigation-link url="/profile">
+      Logged in as {{ name }}
+</navigation-link>
+      <navigation-link url="/profile">
+        <!-- Logged in as {{ url }} -->
+        <!--
+    这里的 `url` 会是 undefined，因为 "/profile" 是
+    _传递给_ <navigation-link> 的而不是
+    在 <navigation-link> 组件*内部*定义的。
+    -->
+      </navigation-link>
+      <base-layout>
+        <template #header> <!-- 可以缩写 即把参数之前的所有内容 (v-slot:) 替换为字符 #。例如 v-slot:header 可以被重写为 #header：-->
+          <h1>Here might be a page title</h1>
+        </template>
+
+        <template v-slot:default>
+          <!-- slot 默认名字：default -->
+          <p>A paragraph for the main content.</p>
+          <p>And another one.</p>
+        </template>
+
+        <template v-slot:footer>
+          <p>Here's some contact info</p>
+        </template>
+      </base-layout>
+      <!-- <current-user v-slot="{ user = { firstName: 'Guest', lastName: 'YYY' } }">
+          {{ user.firstName }}
+        </current-user> -->
+  </div>
+  <h3>编译作用域规则：</h3>
+  <p>父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。</p>
+
+</body>
+<script>
+  Vue.component('navigation-link', {
+    props: ['url'],
+    template: `
+  <a v-bind:href="url">
+      <slot></slot>
+  <slot>我是后背内容</slot>
+  </a>
+  `
+  })
+  Vue.component('navigation', {
+    props: ['url'],
+    template: `
+  <a v-bind:href="url">
+  </a>
+  `
+  })
+  Vue.component('base-layout', {
+    /* 具名插槽vue2.6 */
+    template: `
+    <div class="container">
+  <header>
+    <slot name="header"></slot>
+  </header>
+  <main>
+    <slot></slot>
+  </main>
+  <footer>
+    <slot name="footer"></slot>
+  </footer>
+</div>
+  `
+  })
+  Vue.component('current-user', {
+    /* 作用域插槽vue2.6 */
+    template: `
+    <span>
+  <slot v-bind:user="user">
+    {{ user.lastName }}
+  </slot>
+</span>
+  `
+  })
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      name: 'ddd',
+      user : { firstName: 'Guest', lastName: 'HEEE' }
+    }
+  })
+</script>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+<h3>访问根实例$root</h3>
+<h3>访问父组件实例实例$parent</h3>
+<h3>问子组件实例或子元素:通过 ref 特性为这个子组件赋予一个 ID 引用this.$refs.xxx</h3>
+<h3>依赖注入：provide:祖先组件提供数据/方法 inject：后代组件里面接受指定的想要的东西</h3>
+<h3>程序化的事件侦听器:
+  <ol>
+    <li>$on(eventName, eventHandler)</li>
+    <li>$once(eventName, eventHandler)</li>
+    <li>$off(eventName, eventHandler)</li>
+  </ol>
+</h3>
+<h3>递归组件：max stack size exceeded”错误，所以请确保递归调用是条件性的 (例如使用一个最终会得到 false 的 v-if)</h3>
+<h3>组件之间的循环引用：异步使用出问题的那个组件</h3>
+<h3>内联模板和X-Template</h3>
+<h3>强制更新：$forceUpdate</h3>
+<h3>通过 v-once 创建低开销的静态组件？？是否必要</h3>
+</body>
+<sript>
+  <!-- 
+    在每个 new Vue 实例的子组件中，其根实例可以通过 $root 属性进行访问。例如，在这个根实例中：
+
+// Vue 根实例
+new Vue({
+  data: {
+    foo: 1
+  },
+  computed: {
+    bar: function () { /* ... */ }
+  },
+  methods: {
+    baz: function () { /* ... */ }
+  }
+})
+所有的子组件都可以将这个实例作为一个全局 store 来访问或使用。
+
+// 获取根组件的数据
+this.$root.foo
+
+// 写入根组件的数据
+this.$root.foo = 2
+
+// 访问根组件的计算属性
+this.$root.bar
+
+// 调用根组件的方法
+this.$root.baz()
+对于 demo 或非常小型的有少量组件的应用来说这是很方便的。不过这个模式扩展到中大型应用来说就不然了。因此在绝大多数情况下，我们强烈推荐使用 Vuex 来管理应用的状态
+   -->
+</sript>
+</html>

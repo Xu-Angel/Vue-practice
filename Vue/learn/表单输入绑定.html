@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h2>v-model 会忽略所有表单元素的 value、checked、selected 特性的初始值而总是将 Vue 实例的数据作为数据来源。你应该通过 JavaScript 在组件的 data 选项中声明初始值。</h2>
+    <input v-model="message">
+    <p>message is : {{message}}</p>
+    <textarea name="" id="" cols="30" rows="10" v-model="messageT"></textarea>
+    <p style="white-space: pre-line">textarea message is :{{messageT}} </p>
+    <p>单个复选框 绑定布尔值</p>
+    <input type="checkbox" id="checkbox" v-model="checked">
+    <label for="checkbox">{{ checked }}</label>
+      <p>多个复选框，绑定到同一个数组：</p>
+      <div>
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames }}</span>
+      </div>
+      <p>单选按钮 接管value</p>
+      <div>
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>Picked: {{ picked }}</span>
+      </div>
+      <p>选择框-单选  接管selected  输出value</p>
+      <div>
+        <select name="" id="" v-model="selected">
+          <option value="" disabled>请选择</option>
+          <option value="a">A</option>
+          <option value="b">B</option>
+          <option value="c">C</option>
+        </select>
+        <span>选中了{{selected}}</span>
+        <p>如果 v-model 表达式的初始值未能匹配任何选项，<code>&ltselect&gt</code> 元素将被渲染为“未选中”状态。在 iOS 中，这会使用户无法选择第一个选项。因为这样的情况下，iOS 不会触发 change 事件。因此，更推荐像上面这样提供一个值为空的禁用选项</p>
+      </div>
+  </div>
+  <div id="app2">
+      <p>选择框-复选  绑定到一个数组输出</p>
+      <select name="" multiple id="" v-model="mulselected">
+        <option value="a">A</option>
+        <option value="b">B</option>
+        <option value="c">C</option>
+      </select>
+      <span>mulSelcted:{{mulselected}}</span>
+      <div>
+        <p>用 v-for 渲染的动态选项：</p>
+        <select name="" id="" v-model="selected">
+          <option value="" v-for="option in options" :value="option.value">{{option.text}}</option>
+        </select>
+        <span>Selected: {{selected}}</span>
+      </div>
+      <div>
+        <p>无.number修饰符</p>
+          <input v-model="age" type="number">
+          <span>{{age}}</span>
+          <p>有.number修饰符</p>
+          <input v-model.number="age2" type="number">
+          <span>{{age2}}</span>
+          <p>.trim修饰符</p>
+          <input v-model.trim="msg">
+          <span>{{msg}}</span>
+      </div>
+    </div>
+    <p>TODO: 自定义组件</p>
+</body>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      message: '',
+      messageT: '',
+      checked: true,
+      checkedNames: [],
+      picked: 'One',
+      selected:'',
+      ulSelected:[]
+    }
+  })
+  var vm2 = new Vue({
+    el: '#app2',
+    data: {
+      mulselected:[],
+      selected: 'A',
+      options: [
+        {text: 'One', value: 'A'},
+        {text: 'Two', value: 'B'},
+        {text: 'Three', value: 'C'},
+      ],
+      age: 0,
+      age2: 1,
+      msg: ''
+    }
+  })
+</script>
+
+</html>

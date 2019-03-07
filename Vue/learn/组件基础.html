@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <h3>组件是？？因为组件是可复用的 Vue 实例，所以它们与 new Vue 接收相同的选项，例如 data、computed、watch、methods 以及生命周期钩子等。仅有的例外是像 el 这样根实例特有的选项。</h3>
+  <p>注意当点击按钮时，每个组件都会各自独立维护它的 count。因为你每用一次组件，就会有一个btc的新实例被创建。</p>
+  <p>一个组件的 data 选项必须是一个函数，因此每个实例可以维护一份被返回对象的独立的拷贝</p>
+  <p>全局注册的组件可以用在其被注册之后的任何 (通过 new Vue) 新创建的 Vue 根实例，也包括其组件树中的所有子组件的模板中。</p>
+  <div id="app">
+    <btc></btc>
+    <btc></btc>
+    <btc></btc>
+    <p>通过 Prop 向子组件传递数据</p>
+    <blog title="wo shi blog1" id="1">woshi slot</blog>
+    <blog title="wo shi blog2" id="2"  :style="{ fontSize: postFontSize + 'em' }"  v-on:enlarge="postFontSize += $event"></blog>
+  </div>
+  <p>解析 DOM 模板时的注意事项</p><span>有些 HTML 元素，诸如 <ul>、<ol>、<table> 和 <select>，对于哪些元素可以出现在其内部是有严格限制的。而有些元素，诸如 <li>、<tr> 和 <option>，只能出现在其它某些特定的元素内部。</span>
+</body>
+<script>
+  Vue.component('btc', { // 全局注册
+    data() {
+      return {
+        count: 0
+      }
+    },
+    template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+  })
+  Vue.component('blog', {
+    props:['title', 'type'],
+    template: `<h3 v-on:click="$emit('enlarge', 1)">{{title}}<slot></slot></h3>`
+  })
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      postFontSize: 1
+    }
+  })
+</script>
+
+</html>

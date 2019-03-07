@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+   <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <h3>关于自定义事件的方法名字：</h3>
+  <p>不同于组件和 prop，事件名不会被用作一个 JavaScript 变量名或属性名，所以就没有理由使用 camelCase 或 PascalCase 了。并且 v-on 事件监听器在 DOM 模板中会被自动转换为全小写 (因为 HTML 是大小写不敏感的)，所以 v-on:myEvent 将会变成 v-on:myevent——导致 myEvent 不可能被监听到。
+      因此，我们推荐你始终使用 kebab-case 的事件名。</p>
+      <div id="app">
+          <base-checkbox v-model="lovingVue">ddd</base-checkbox><!-- 这里的 lovingVue 的值将会传入这个名为 checked 的 prop。同时当 <base-checkbox> 触发一个 change 事件并附带一个新的值的时候，这个 lovingVue 的属性将会被更新。 -->
+          <base-input v-on:focus.native="onFocus"></base-input><!-- 你可能有很多次想要在一个组件的根元素上直接监听一个原生事件。这时，你可以使用 v-on 的 .native 修饰符：,一般是有用的，但是在一些被重构过的组件中会生效不了，因为根元素不是你想监听的那个，此时可以借助$listeners 来指向你想监听的组件的特定的子元素 -->
+      </div>
+      <h2>更新Prop中的数据？？？？</h2>
+      <h3><code>.sync</code>修饰符</h3>
+      <p>子组件中：
+        <pre>this.$emit('update:title', newTitle)</pre>
+      </p>
+      <p>父组件中：
+        <pre>&gt;ttext-document
+          v-bind:title="doc.title"
+          v-on:update:title="doc.title = $event"
+          &lt;&gt;/text-document&lt;</pre>
+      </p>
+      <p>
+        用修饰符.sync：
+        <pre>&gt;text-document v-bind:title.sync="doc.title"&lt;&gt;/text-document&lt;</pre>
+      </p>
+      <p>
+      </p>
+
+</body>
+<script>
+  Vue.component('base-checkbox', {
+    model: {
+      prop: 'checked',
+      event: 'change'
+    },
+    props: {
+      checked: Boolean
+    },
+    template: `
+    <input
+    type="checkbox"
+    v-bind:checked="checked"
+    v-on:change="$emit('change', $event.target.checked)"
+    >
+    `
+  })
+  Vue.component('base-input', {
+    inheritAttrs: false,
+    props: ['label', 'value'],
+    computed: {
+      inputListeners: function () {/* 
+      了这个 $listeners 属性，你就可以配合 v-on="$listeners" 将所有的事件监听器指向这个组件的某个特定的子元素。对于类似 <input> 的你希望它也可以配合 v-model 工作的组件来说，为这些监听器创建一个类似下述 inputListeners 的计算属性通常是非常有用的： 
+      
+      现在 <base-input> 组件是一个完全透明的包裹器了，也就是说它可以完全像一个普通的 <input> 元素一样使用了：所有跟它相同的特性和监听器的都可以工作。*/
+        var vm = this
+        return Object.assign({}, this.$listeners, {input: function (event) {
+          vm.$emit('input', event.target.value)
+        }})
+      }
+    },
+    template: `
+    <label>
+    {{label}}
+    <input
+    v-bind="$attrs"
+    v-bind:value="value"
+    v-on="inputListeners"
+    >
+    </label>
+    `
+  })
+var vm = new Vue({
+  el: '#app',
+  data: {
+    lovingVue: true
+  }
+})
+</script>
+</html>
