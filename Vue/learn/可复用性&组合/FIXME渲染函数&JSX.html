@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <p>Vue 推荐在绝大多数情况下使用 template 来创建你的 HTML。然而在一些场景中，你真的需要 JavaScript 的完全编程的能力，这时你可以用 render 函数，它比 template 更接近编译器。</p>
+  <div id="app">
+      <anchored-heading :level="1">Hello world!</anchored-heading>
+      <anchored-headin :level="1">Hello world!</anchored-headin>
+  </div>
+</body>
+<script type="text/x-template" id="anchored-heading-template">
+  <h1 v-if="level === 1">
+    <slot></slot>
+  </h1>
+  <h2 v-else-if="level === 2">
+    <slot></slot>
+  </h2>
+  <h3 v-else-if="level === 3">
+    <slot></slot>
+  </h3>
+  <h4 v-else-if="level === 4">
+    <slot></slot>
+  </h4>
+  <h5 v-else-if="level === 5">
+    <slot></slot>
+  </h5>
+  <h6 v-else-if="level === 6">
+    <slot></slot>
+  </h6>
+</script>
+<script>
+  Vue.component('anchored-heading', {
+  template: '#anchored-heading-template',
+  props: {
+    level: {
+      type: Number,
+      required: true
+    }
+  }
+})
+Vue.component('anchored-headin', {
+  render: function (createElement) {
+    return createElement(
+      'h' + this.level,   // 标签名称
+      this.$slots.default // 子元素数组
+    )
+  },
+  props: {
+    level: {
+      type: Number,
+      required: true
+    }
+  }
+})
+// var getChildrenTextContent = function (children) {
+//   return children.map(function (node) {
+//     return node.children
+//       ? getChildrenTextContent(node.children)
+//       : node.text
+//   }).join('')
+// }
+
+// Vue.component('anchored-heading', {
+//   render: function (createElement) {
+//     // 创建 kebab-case 风格的ID
+//     var headingId = getChildrenTextContent(this.$slots.default)
+//       .toLowerCase()
+//       .replace(/\W+/g, '-')
+//       .replace(/(^-|-$)/g, '')
+
+//     return createElement(
+//       'h' + this.level,
+//       [
+//         createElement('a', {
+//           attrs: {
+//             name: headingId,
+//             href: '#' + headingId
+//           }
+//         }, this.$slots.default)
+//       ]
+//     )
+//   },
+//   props: {
+//     level: {
+//       type: Number,
+//       required: true
+//     }
+//   }
+// })
+new Vue({
+  el: '#app'
+})
+/* VNodes 必须唯一
+组件树中的所有 VNodes 必须是唯一的。这意味着，下面的 render function 是无效的：
+
+render: function (createElement) {
+  var myParagraphVNode = createElement('p', 'hi')
+  return createElement('div', [
+    // 错误-重复的 VNodes
+    myParagraphVNode, myParagraphVNode
+  ])
+}
+如果你真的需要重复很多次的元素/组件，你可以使用工厂函数来实现。例如，下面这个例子 render 函数完美有效地渲染了 20 个相同的段落：
+
+render: function (createElement) {
+  return createElement('div',
+    Array.apply(null, { length: 20 }).map(function () {
+      return createElement('p', 'hi')
+    })
+  )
+} */
+</script>
+</html>

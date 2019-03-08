@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <h3>当组件和混入对象含有同名选项时，这些选项将以恰当的方式混合。
+
+    比如，数据对象在内部会进行递归合并，在和组件的数据发生冲突时以组件数据优先。</h3>
+
+  <h3>同名钩子函数将混合为一个数组，因此都将被调用。另外，混入对象的钩子将在组件自身钩子之前调用。</h3>
+  <h3>值为对象的选项，例如 methods, components 和 directives，将被混合为同一个对象。两个对象键名冲突时，取组件对象的键值对。</h3>
+  <p>注意：Vue.extend() 也使用同样的策略进行合并。</p>
+  <h2>全局混入</h2>
+  <h3>自定义选项合并策略</h3>
+  <p>自定义选项将使用默认策略，即简单地覆盖已有值。如果想让自定义选项以自定义逻辑合并，可以向 Vue.config.optionMergeStrategies 添加一个函数：</p>
+</body>
+<script>
+  var myMixin = {
+    data() {
+      return {
+        message: 'hello',
+        foo: 'abc'
+      }
+    }
+  }
+
+  new Vue({
+    mixins: [myMixin],
+    data() {
+      return {
+        message: 'goodbye',
+        bar: 'def'
+      }
+    },
+    created() {
+      console.log(this.$data) // => { message: "goodbye", foo: "abc", bar: "def" }
+    }
+  })
+
+  // 同名狗子：
+  var mixin = {
+    created() {
+      console.log('混入对象的钩子被调用');
+    }
+  }
+  new Vue({
+    mixins: [mixin],
+    created() {
+      console.log('组件钩子被调用');
+    }
+  })
+  // => "混入对象的钩子被调用"
+  // => "组件钩子被调用"
+
+
+  // 对象键名冲突 取组件对象的键值对
+  var mixinObj = {
+    methods: {
+      foo() {
+        console.log('foo');
+      },
+      conflicting() {
+        console.log('from mixin');
+      }
+    }
+  }
+
+  var vm = new Vue({
+    mixins: [mixinObj],
+    methods: {
+      bar() {
+        console.log('bar');
+      },
+      conflicting() {
+        console.log('form self');
+      }
+    }
+  })
+  vm.foo() // => "foo"
+  vm.bar() // => "bar"
+  vm.conflicting() // => "from self"
+
+  // 全局混入
+  /* 
+  也可以全局注册混入对象。注意使用！ 一旦使用全局混入对象，将会影响到 所有 之后创建的 Vue 实例。使用恰当时，可以为自定义对象注入处理逻辑 */
+  // 为自定义的选项 'myOption' 注入一个处理器。
+  Vue.mixin({
+    created: function () {
+      var myOption = this.$options.myOption
+      if (myOption) {
+        console.log(myOption)
+      }
+    }
+  })
+/* 谨慎使用全局混入对象，因为会影响到每个单独创建的 Vue 实例 (包括第三方模板)。大多数情况下，只应当应用于自定义选项，就像上面示例一样。也可以将其用作 Plugins 以避免产生重复应用 */
+  new Vue({
+    myOption: 'hello!'
+  })
+  // => "hello!"
+</script>
+
+</html>
