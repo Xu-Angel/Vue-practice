@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .custom-tree-node {
+      position: relative;
+      width: 100%;
+    }
+
+    .header-span {
+      float: right;
+      font-size: 14px;
+      font-weight: 400;
+      color: #606266;
+    }
+
+    .header-span span:nth-child(1) {
+      margin-right: 10px;
+    }
+
+    .header-span span:nth-child(2) {
+      margin-right: 7px;
+    }
+
+    .header-span span:nth-child(3) {
+      margin-right: 4px;
+    }
+
+    .header-span span:nth-child(4) {
+      margin-right: 2px;
+    }
+
+    .custom-btn {
+      float: right;
+      height: 26px;
+      line-height: 26px;
+      margin-top: 4px;
+    }
+
+    .custom-btn .custom-btn-s {
+      margin: 0 4px;
+      margin: 0 4px;
+      border-right: 1px dashed #ccc;
+      padding-right: 6px;
+      height: 26px;
+    }
+
+    .custom-btn .custom-btn-d {
+      display: inline-flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .custom-btn .el-switch {
+      margin-bottom: 4px;
+    }
+
+    .custom-tree-container .el-tree-node__content {
+      height: 40px;
+      cursor: pointer;
+      border-top: 1px dashed #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="//unpkg.com/vue/dist/vue.js"></script>
+  <script src="//unpkg.com/element-ui@2.12.0/lib/index.js"></script>
+  <link rel="stylesheet" href="//unpkg.com/element-ui@2.12.0/lib/theme-chalk/index.css">
+  <div id="app">
+    <div class="custom-tree-container">
+      <p class="header-p" style="margin-bottom: 10px;">
+        文件夹权限设置
+        <span class="header-span">
+          <span>读权限</span>
+          <span>写权限</span>
+          <span>复制权限</span>
+          <span>下载权限</span>
+        </span>
+      </p>
+      <div class="block">
+        <el-tree :data="arcList" node-key="id" :default-expand-all="false" :expand-on-click-node="false">
+          <span class="custom-tree-node" slot-scope="{ node , data }">
+            <span>{{ data.title }}</span>
+              <span class="custom-btn">
+                <span class="custom-btn-s">
+                  <!-- <div class="custom-btn-d">读权限</div> -->
+                  <el-switch v-model="data.can_read" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_read', data)"></el-switch>
+                </span>
+                <span class="custom-btn-s">
+                  <!-- <div class="custom-btn-d">写权限</div> -->
+                  <el-switch v-model="data.can_write" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_write', data)"></el-switch>
+                </span>
+                <span class="custom-btn-s">
+                  <!-- <div class="custom-btn-d">复制权限</div> -->
+                  <el-switch v-model="data.can_copy" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_copy', data)"></el-switch>
+                </span>
+                <span class="custom-btn-s">
+                  <!-- <div class="custom-btn-d">下载权限</div> -->
+                  <el-switch v-model="data.can_down" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_down', data)"></el-switch>
+                </span>
+              </span>
+            </span>
+        </el-tree>
+      </div>
+    </div>
+  </div>
+  <script>
+    var Main = {
+      data() {
+        return {
+          arcList: [{ "title": "测试4", "children": [{ "title": "测试290-1", "cate_id": 291, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "测试290-2", "cate_id": 292, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "测试290-3", "cate_id": 294, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "测试290-4", "cate_id": 295, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "测试290-5", "cate_id": 296, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }], "cate_id": 290, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "我的文件夹", "children": [{ "title": "二级目录", "children": [{ "title": "三级目录", "cate_id": 261, "can_read": 1, "can_write": 1, "can_down": 0, "can_copy": 0 }, { "title": "三级文件夹一", "cate_id": 267, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "三级文件夹二", "cate_id": 274, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }], "cate_id": 256, "can_read": 1, "can_write": 1, "can_down": 0, "can_copy": 0 }, { "title": "二级目录2", "cate_id": 260, "can_read": 1, "can_write": 1, "can_down": 0, "can_copy": 0 }, { "title": "测试234-1", "cate_id": 297, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }], "cate_id": 234, "can_read": 1, "can_write": 1, "can_down": 0, "can_copy": 0 }, { "title": "一级目录", "cate_id": 253, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }]
+        }
+      },
+      methods: {
+        async handleSwitch(type, data) {
+          await this.loop(type, data, data[`${type}`])
+          await this.flatten(data)
+        },
+        handleOpen(key, keyPath) {
+          console.log(key, keyPath);
+        },
+        handleClose(key, keyPath) {
+          console.log(key, keyPath);
+        },
+        flatten(data) {
+          if (Array.isArray(data)) {
+            data.forEach(v => this.flatten(v))
+          } else {
+            /* eslint-disable */
+            let { cate_id, group_id, can_read, can_write, can_down, can_copy } = data
+            if (!group_id) group_id = this.id
+            this.flattenList.forEach((v, i) => {
+              if (v.cate_id === cate_id) this.flattenList.splice(i, 1)
+            })
+            this.flattenList.push({ cate_id, group_id, can_read, can_write, can_down, can_copy })
+          }
+          /* eslint-enable */
+          if (data.children) this.flatten(data.children)
+        },
+        /** 联动权限 */
+        loop(type, data, val) {
+          const needReadArr = ['can_write', 'can_copy', 'can_down']
+          const needOpenRead = (needReadArr.includes(type)) && val === 1
+          const cantRead = type === 'can_read' && val === 0
+          const loopRW = data => {
+            if (needOpenRead) data.can_read = 1
+            if (cantRead) needReadArr.forEach(v => (data[`${v}`] = 0))
+            data[`${type}`] = val
+          }
+          if (Array.isArray(data)) {
+            data.forEach(v => {
+              loopRW(v)
+              if (v.children) this.loop(type, v.children, val)
+            })
+          } else {
+            loopRW(data)
+          }
+          if (data.children) this.loop(type, data.children, val)
+        }
+      }
+    }
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app')
+  </script>
+</body>
+
+</html>
