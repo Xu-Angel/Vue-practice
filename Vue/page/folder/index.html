@@ -116,6 +116,7 @@
     var Main = {
       data() {
         return {
+          flattenList: [],
           arcList: [{ "title": "测试4", "children": [{ "title": "测试290-1", "cate_id": 291, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "测试290-2", "cate_id": 292, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "测试290-3", "cate_id": 294, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "测试290-4", "cate_id": 295, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "测试290-5", "cate_id": 296, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }], "cate_id": 290, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "我的文件夹", "children": [{ "title": "二级目录", "children": [{ "title": "三级目录", "cate_id": 261, "can_read": 1, "can_write": 1, "can_down": 0, "can_copy": 0 }, { "title": "三级文件夹一", "cate_id": 267, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }, { "title": "三级文件夹二", "cate_id": 274, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }], "cate_id": 256, "can_read": 1, "can_write": 1, "can_down": 0, "can_copy": 0 }, { "title": "二级目录2", "cate_id": 260, "can_read": 1, "can_write": 1, "can_down": 0, "can_copy": 0 }, { "title": "测试234-1", "cate_id": 297, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }], "cate_id": 234, "can_read": 1, "can_write": 1, "can_down": 0, "can_copy": 0 }, { "title": "一级目录", "cate_id": 253, "can_read": 0, "can_write": 0, "can_down": 0, "can_copy": 0 }]
         }
       },
@@ -123,12 +124,7 @@
         async handleSwitch(type, data) {
           await this.loop(type, data, data[`${type}`])
           await this.flatten(data)
-        },
-        handleOpen(key, keyPath) {
-          console.log(key, keyPath);
-        },
-        handleClose(key, keyPath) {
-          console.log(key, keyPath);
+          console.log(this.flattenList)
         },
         flatten(data) {
           if (Array.isArray(data)) {
