@@ -92,19 +92,19 @@
               <span class="custom-btn">
                 <span class="custom-btn-s">
                   <!-- <div class="custom-btn-d">读权限</div> -->
-                  <el-switch v-model="data.can_read" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_read', data)"></el-switch>
+                  <el-switch v-model="data.can_read" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_read', node, data)"></el-switch>
                 </span>
                 <span class="custom-btn-s">
                   <!-- <div class="custom-btn-d">写权限</div> -->
-                  <el-switch v-model="data.can_write" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_write', data)"></el-switch>
+                  <el-switch v-model="data.can_write" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_write', node, data)"></el-switch>
                 </span>
                 <span class="custom-btn-s">
                   <!-- <div class="custom-btn-d">复制权限</div> -->
-                  <el-switch v-model="data.can_copy" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_copy', data)"></el-switch>
+                  <el-switch v-model="data.can_copy" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_copy', node, data)"></el-switch>
                 </span>
                 <span class="custom-btn-s">
                   <!-- <div class="custom-btn-d">下载权限</div> -->
-                  <el-switch v-model="data.can_down" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_down', data)"></el-switch>
+                  <el-switch v-model="data.can_down" active-color="#13ce66" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" @change="handleSwitch('can_down', node, data)"></el-switch>
                 </span>
               </span>
             </span>
@@ -121,10 +121,29 @@
         }
       },
       methods: {
-        async handleSwitch(type, data) {
+        async handleSwitch(type, node, data) {
+          console.log(data);
+          // this.upper((type, node, data[`${type}`]))
           await this.loop(type, data, data[`${type}`])
           await this.flatten(data)
-          console.log(this.flattenList)
+        },
+        upper(type, data, val) {
+          const needReadArr = ['can_write', 'can_copy', 'can_down']
+          const needOpenRead = (needReadArr.includes(type)) && val === 1
+          const cantRead = type === 'can_read' && val === 0
+          const loopRW = data => {
+            if (needOpenRead) data.data.can_read = 1
+            if (cantRead) needReadArr.forEach(v => (data.data[`${v}`] = 0))
+            data.data[`${type}`] = val
+          }
+          if(data.parent) {
+            parent.data.forEach(v => {
+              loopRW(v)
+            })
+            if (parent.parent) {
+              this.upper(type, parent.parent, val)
+            }
+          }
         },
         flatten(data) {
           if (Array.isArray(data)) {
