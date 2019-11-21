@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- <my-checkbox v-model="foo" value="some value"></my-checkbox> -->
+    <my-checkbox
+  :checked="foo"
+  @change="val => { foo = val }"
+  value="some value">
+</my-checkbox>
+  </div>
+</body>
+<script>
+
+Vue.component('my-checkbox', {
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    // this allows using the `value` prop for a different purpose
+    value: String,
+    // use `checked` as the prop which take the place of `value`
+    checked: {
+      type: Number,
+      default: 0
+    }
+  },
+  // ...
+})
+var vm = new Vue({
+    el: '#app',
+    data: {
+      postFontSize: 1,
+      foo: 'ddd',
+      checked: 9
+    }
+  })
+</script>
+</html>
