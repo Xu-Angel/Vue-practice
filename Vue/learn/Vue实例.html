@@ -9,6 +9,7 @@
    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
+  <p>如果Vue实例在实例化的时候没有接收到el选项，这是在未挂载状态，没有关联的DOM元素。此时可以用vm.$mount()手动地挂在一个未挂载的实例</p>
   <div id="app">
     <p >{{foo}}{{message}}</p>
     <!-- 这里的 `foo` 不会更新！ -->
