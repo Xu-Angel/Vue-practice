@@ -30,7 +30,8 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
-	name: 'itemcontainer',
+  name: 'itemcontainer',
+  inject: ["tt", "obj"], // 子组件接受父组件
 	data() {
 		return {
 			itemId: null, //题目ID
@@ -89,8 +90,9 @@ export default {
   				alert('您还没有选择答案哦')
   			}
 	  	},
-	},
+  },
 	created(){
+    console.log(this.tt, this.obj, 'ooo');
     console.log(this.fatherComponent);
 		//初始化信息
 		if(this.fatherComponent == 'home') {
