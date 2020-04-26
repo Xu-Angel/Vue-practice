@@ -21,3 +21,8 @@ export function currency (value, currency, decimals) {
     _int.slice(i).replace(digitsRE, '$1,') +
     _float
 }
+
+
+export const time = timestamp => {
+  return new Date(timestamp).toLocaleTimeString()
+}

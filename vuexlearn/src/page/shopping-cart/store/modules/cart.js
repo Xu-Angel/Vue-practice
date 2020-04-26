@@ -55,6 +55,7 @@ const actions = {
         commit('incrementItemQuantity', cartItem)
       }
       // remove 1 item from stock
+      // root: true，它允许在命名空间模块里提交根的 mutation,默认false
       commit('products/decrementProductInventory', { id: product.id }, { root: true })
     }
   }

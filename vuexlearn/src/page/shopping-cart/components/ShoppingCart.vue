@@ -23,7 +23,7 @@ export default {
     ...mapState({
       checkoutStatus: state => state.cart.checkoutStatus
     }),
-    ...mapGetters('cart', {
+    ...mapGetters('cart', { // 为组件创建计算属性以返回 getter 的返回值
       products: 'cartProducts',
       total: 'cartTotalPrice'
     })

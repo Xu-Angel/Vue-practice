@@ -1,6 +1,12 @@
 <template>
   <div class="hello">
-   🐖🐖
+   <router-link to="/count">Counter</router-link>
+   <br>
+   <router-link to="/Cart">shopping-cart</router-link>
+   <br>
+   <router-link to="/Chat">Chat</router-link>
+   <br>
+   <router-link to="/todo">todo</router-link>
   </div>
 </template>
 

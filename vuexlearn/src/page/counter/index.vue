@@ -14,7 +14,7 @@
 
 // 方式三
 import { createNamespacedHelpers } from 'vuex'
-const { mapState, mapActions, mapGetters } = createNamespacedHelpers('moduleCounter')
+const { mapState, mapActions, mapGetters } = createNamespacedHelpers('moduleCounter') // 创建基于命名空间的组件绑定辅助函数。其返回一个包含 mapState、mapGetters、mapActions 和 mapMutations 的对象。它们都已经绑定在了给定的命名空间上
 //
 export default {
   /* 方式一 */
