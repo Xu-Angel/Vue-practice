@@ -2,7 +2,6 @@ export const STORAGE_KEY = 'todos-vuejs'
 
 export const mutations = {
   addTodo(state, todo) {
-    console.log(state, todo, 'pp')
     state.todos.push(todo)
   },
 

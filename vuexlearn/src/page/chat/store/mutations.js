@@ -38,7 +38,6 @@ function createThread (state, id, name) {
 }
 
 function addMessage(state, message) {
-  console.log(state, '-', message);
   // add a `isRead` field before adding the message
   message.isRead = message.threadID === state.currentThreadID
   // add it to the thread it belongs to
@@ -52,7 +51,6 @@ function addMessage(state, message) {
 }
 
 function setCurrentThread(state, id) {
-  console.log(state, 't', id);
   state.currentThreadID = id
   if (!state.threads[id]) {
     window.debugger
