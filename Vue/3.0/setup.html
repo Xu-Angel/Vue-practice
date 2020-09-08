@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- <script src="https://unpkg.com/vue@next"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.0.0-beta.11"></script>
+</head>
+<body>
+  <div id="app">
+    <div @click="plus">{{count}}{{object.foo}}</div>
+  </div>
+  <script>
+    const { ref, reactive, watchEffect  } = VueCompositionAPI
+    new Vue({
+      el: '#app',
+      setup(props) {
+        const count = ref(0)
+        const object = reactive({foo: 'bar'})
+        console.log(props);
+        return {
+          count,
+          object,
+          plus
+        }
+        function plus() {
+          object.foo+= "t"
+        }
+        watchEffect(() => {
+          document.body.innerHTML += `Time ${object.foo}`
+        })
+      },
+  
+    })
+  </script>
+</body>
+</html>
