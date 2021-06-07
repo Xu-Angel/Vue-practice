@@ -19,9 +19,9 @@ Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用�
 
 state: state tree
 
-action: sync operation => commit a mutaion
+action: async operation => commit a mutaion
 
-mutation: state => async sideEffective => state
+mutation: state => sync sideEffective => state
 
 dispatch an action
 
