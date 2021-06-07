@@ -11,11 +11,12 @@
 <body>
   <div id="app">
     <!-- <my-checkbox v-model="foo" value="some value"></my-checkbox> -->
-    <my-checkbox
+    <!-- <my-checkbox
   :checked="foo"
   @change="val => { foo = val }"
   value="some value">
-</my-checkbox>
+</my-checkbox> -->
+<base-checkbox v-model="lovingVue"></base-checkbox>
   </div>
 </body>
 <script>
@@ -36,12 +37,31 @@ Vue.component('my-checkbox', {
   },
   // ...
 })
+// 自定义V-model
+Vue.component('base-checkbox', {
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    checked: Boolean
+  },
+  template: `
+  <input
+  type="checkbox"
+  v-bind:checked='checked'
+  v-on:change="$emit('change', $event.target.checked)"
+  >
+  `
+})
+
 var vm = new Vue({
     el: '#app',
     data: {
       postFontSize: 1,
-      foo: 'ddd',
-      checked: 9
+      foo: 8,
+      checked: 9,
+      lovingVue: false
     }
   })
 </script>
