@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/index'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 // import Vuex from 'vuex'
 // import store  from './page/counter/store.js' // single store
 // import storeCounter from './page/counter/counterStore.js' // module store
@@ -18,7 +20,7 @@ import { getAllMessages } from './page/chat/store/actions'
 // })
 
 import store from './store'
-
+Vue.use(ElementUI);
 new Vue({
   render: h => h(App),
   router,

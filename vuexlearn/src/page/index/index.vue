@@ -7,6 +7,8 @@
    <router-link to="/Chat">Chat</router-link>
    <br>
    <router-link to="/todo">todo</router-link>
+   <router-link to="/select">select</router-link>
+   <router-link to="/Attrs">Attrs</router-link>
   </div>
 </template>
 
