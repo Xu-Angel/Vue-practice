@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app" :class="test">{{msg + 'heihei'}}{{test}}</div>
+  <script>
+    // {{}}-文本插值，大胡子语法
+    // v-bind => :
+    // Vue对象实例化 => app => vm
+    const app = new Vue({
+      el: '#app', // view视图在哪里？指定视图挂载的域
+      data: {
+        // 响应式数据：数据变动=>视图变动
+        msg: 'hello world',
+        test: 'test class'
+      }
+    })
+
+    // 浏览器端使用
+    window.app = app
+  </script>
+</body>
+
+</html>

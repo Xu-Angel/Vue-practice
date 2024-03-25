@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
+<script>
+  const Foo = {
+    // 1、数组形式，每个元素都是一个变量没有指定的属性类型，难以知道父组件传入的数据类型
+    // props: ['msg', 'num'], 
+    // 2、对象形式，[key: type-object]形式，每个key为属性名，值为类型对象，指定key的类型，且
+    // props: {
+    //   msg: String,
+    //   num: Number
+    // },
+    props: {
+      msg: String,
+      num: {
+        type: Number,
+        default: 9, // 默认值
+        validator(val) { // 自定义校验器custom validator
+          if (val === 9) {
+            return true
+          } else {
+            alert('传入数据有误')
+            return false
+          }
+        }
+      },
+      name: {
+        type: String,
+        default () { // 默认值写成函数形式
+          return 'zy'
+        }
+      },
+      test: String
+    },
+    data() {
+      return {
+        // msg: 'Foo'
+      }
+    },
+    template: `<h1>{{msg}} {{num}} {{name}}</h1>`
+  }
+  Vue.component('Foo', Foo)
+
+  const app = new Vue({
+    el: '#app',
+    data: {
+      msg: 'hello world'
+    },
+    // 父组件与子组件的通信
+    template: `<div>
+        <Foo msg="abc" :num='9'></Foo>
+      </div>`
+  })
+
+  window.app = app
+</script>
+
+</html>

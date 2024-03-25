@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    root app
+    <Foo>
+      <!-- 默认 -->
+      {{msg}}
+      <!-- 或者 -->
+      <!-- <template v-slot>新指令</template> -->
+      <!-- 旧指令-具名插槽（已废弃） -->
+      <!-- <template slot="first">first slot</template> -->
+      <!-- 旧指令-作用域插槽 -->
+      <!-- <template slot="second" slot-scope="obj">
+        {{obj.title}}--{{obj.user}}---{{obj.age}}
+      </template> -->
+      <!-- 新指令-具名插槽 -->
+      <!-- <template v-slot:first>new--first--slot</template> -->
+      <!-- 缩写 -->
+      <template #first>缩写：new--first--slot</template>
+      <!-- 新指令-作用域插槽 -->
+      <template #second="obj">
+        缩写--new: {{obj.title}}--{{obj.user}}---{{obj.age}}
+      </template>
+    </Foo>
+  </div>
+</body>
+
+<script>
+  const Foo = {
+    data() {
+      return {
+        obj: {
+          title: 'my foo',
+          user: 'zy'
+        }
+      }
+    },
+    template: `
+    <div>
+      <div>
+        Foo--默认插槽:
+        <slot></slot>
+      </div>
+      <div>
+        Foo--具名插槽:
+        <slot name="first"></slot>
+      </div>
+      <div>
+        Foo--作用域插槽:
+        <slot name="second" :title="obj.title" age="13" :user="obj.user"></slot>
+      </div>
+    </div>
+  `
+  }
+  Vue.component('Foo', Foo)
+  new Vue({
+    el: '#app',
+    data: {
+      msg: 'hello world'
+    }
+  })
+</script>
+
+</html>

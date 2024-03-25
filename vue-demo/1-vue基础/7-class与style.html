@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <style>
+    .blue {
+      color: blue;
+    }
+
+    .fontSize {
+      font-size: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div :class="classes1">classes1</div>
+    <div :class="classes2">classes2</div>
+    <div :class="classesObj1">classes1-obj</div>
+    <div :class="classes">classes---{{count}}---计算属性</div>
+    <div :style="styleInfo1">styleInfo-array</div>
+    <div :style="styleInfo2">styleInfo-object</div>
+  </div>
+  <script>
+    // class -> array object
+    const app = new Vue({
+      el: "#app",
+      data: {
+        count: 0,
+        // 数组表示 1.字符串数组，每个元素都是一个样式类名
+        classes1: [
+          'blue',
+          'fontSize'
+        ],
+        // 含有表达式的数组
+        classes2: [
+          'blue',
+          // this.count === 0 ? 'fontSize' : '',
+          {
+            fontSize: true
+          }
+        ],
+        // 对象表示法,属性名即为样式类名
+        classesObj1: {
+          blue: true,
+          fontSize: true
+        },
+        // 数组
+        styleInfo1: [{
+            color: 'yellow'
+          },
+          {
+            fontSize: '60px'
+          }
+        ],
+        styleInfo2: {
+          color: 'red',
+          fontSize: '60px'
+        }
+      },
+      computed: {
+        classes() {
+          return ['blue', this.count === 0 ? 'fontSize' : '']
+        }
+      }
+    })
+
+    window.app = app
+  </script>
+</body>
+
+</html>

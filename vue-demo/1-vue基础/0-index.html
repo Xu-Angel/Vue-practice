@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 方式一：cdn引入 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <!-- 方式二：ES Module引入 -->
+  <!-- <script type="module">
+        import Vue from 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js'
+    </script> -->
+</head>
+
+<body>
+  <div id="app">{{msg}}</div>
+  <!-- 方式三：`npm i vue`下载到本地再通过`ES Module`引入 -->
+  <!-- <script type="module">
+    import Vue from './node_modules/vue/dist/vue.js'
+    console.log(Vue)
+  </script> -->
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello world'
+      }
+    })
+    console.log(vm)
+  </script>
+</body>
+
+</html>

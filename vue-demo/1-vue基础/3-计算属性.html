@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <!-- 倒置显示msg -->
+  <!-- 可读性差 -->
+  <!-- <div id="app">{{msg.split('').reverse().join('')}}</div> -->
+  <!-- 计算输出与函数的区别 -->
+  <!-- 函数：每次调用都需要计算取值（因为没有缓存），不管依赖的属性值是否有变化 -->
+  <!-- 计算属性：如果依赖的属性没有变化，就使用缓存值，否则重新计算取值 -->
+  <div id="app">{{reverseMsg}} --- {{reverseHandle()}}</div>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello world',
+        count: 0
+      },
+      methods: {
+        // 每次调用都需要计算取值（因为没有缓存），不管依赖的属性值是否有变化
+        reverseHandle() {
+          console.log('methods')
+          return this.msg.split('').reverse().join('')
+        }
+      },
+      // 计算属性
+      computed: {
+        // 函数
+        // 计算属性：依赖别的属性的属性 reverseMsg => this.msg(响应式属性)
+        // 可缓存：依赖的属性不变，计算属性不需要重新执行
+        // 依赖一个或者多个属性
+        // 一对多
+        // 每次调用：如果依赖的属性没有变化，就使用缓存值，否则重新计算取值
+        reverseMsg() {
+          console.log('computed')
+          // 一定要返回一个数据
+          // return this.msg.split('').reverse().join('')
+          return this.msg.split('').reverse().join('') + this.count
+        }
+      }
+    })
+
+    // 浏览器端使用
+    window.app = app
+  </script>
+</body>
+
+</html>

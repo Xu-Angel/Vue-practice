@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    Foo
+    <input type="text" v-focus>
+    <Foo></Foo>
+  </div>
+</body>
+
+<script>
+  // 注册一个全局自定义指令
+  Vue.directive('focus', {
+    // 绑定元素：只调用一次，可以进行一次性的初始化设置
+    bind(el, data) {
+      // el直接插入DOM
+      console.log(el, data)
+    },
+    // 绑定的元素插入到 DOM 中
+    inserted(el, data) {
+      // mounted
+      console.log(data)
+      // 聚焦元素
+      el.focus()
+    },
+    // 更新
+    update() {
+
+    },
+    componentUpdate() {
+
+    },
+    // 解绑：只调用一次
+    unbind() {
+
+    }
+  })
+  // 注册局部指令：组件接受directives选项：
+  const Foo = {
+    template: `
+      <div>
+        <input name="a" v-focus></input>
+        <input name="a" ></input>
+      </div>
+    `
+  }
+  Vue.component("Foo", Foo);
+  const app = new Vue({
+    el: '#app'
+  })
+</script>
+
+</html>

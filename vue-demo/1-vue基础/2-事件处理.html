@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    {{msg}}{{count}}
+    <button v-on:click="handleClick">v-on:click</button>
+    <button @click="handleClick">@click</button>
+    <button @click="handleClick(1)">click(1)</button>
+    <button @click="handleClick(1,$event)">click(1,$event)</button>
+    <button @click="count++">count</button>
+    <!-- 修饰符once 只触发一次-->
+    <button @click.once="count++">count-once</button>
+    <!-- 修饰符prevent 阻止默认行为 -->
+    <button @click.prevent="count++">count-prevent</button>
+  </div>
+  <script>
+    // v-on注册事件
+    // 简写@
+    const app = new Vue({
+      el: '#app',
+      data: {
+        // 响应式数据
+        msg: 'hello world',
+        count: 0
+      },
+      methods: {
+        handleClick(type, e) {
+          console.log(type, e)
+          console.log('click')
+        }
+      },
+    })
+
+    // 浏览器端使用
+    window.app = app
+  </script>
+</body>
+
+</html>

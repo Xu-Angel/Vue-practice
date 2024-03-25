@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h3>对象循环</h3>
+    <ul>
+      <!-- v-for object -->
+      <li v-for="val in users">{{val.name}}--{{val.age}}</li>
+      <li v-for="(val, key) in users">{{val}}---{{key}}</li>
+      <li v-for="(val, key, index) in users">{{val}}---{{key}}---{{index}}</li>
+    </ul>
+    <h3>数组循环</h3>
+    <ul>
+      <!-- v-for array -->
+      <li v-for="item in userList">{{item.name}}--{{item.age}}</li>
+      <li v-for="(item,index) in userList">{{item}}---{{index}}</li>
+      <!-- v-for v-if同时使用-不推荐-可以将userList替换为一个计算属性，让其返回过滤后的结果-->
+      <!-- <li v-for="item in userList" v-if="item.age>=19">{{item.name}}--{{item.age}}</li> -->
+      <li v-for="(item,index) in filterAge">{{item.name}}---{{item.age}}---{{index}}</li>
+    </ul>
+  </div>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        users: {
+          1: {
+            name: "xiaohong",
+            age: 19,
+          },
+
+          2: {
+            name: "xiaohei",
+            age: 20,
+          },
+        },
+        userList: [{
+            name: "xiaohong",
+            age: 19,
+          },
+          {
+            name: "xiaohei",
+            age: 20,
+          },
+        ],
+      },
+      computed: {
+        filterAge() {
+          return this.userList.filter(user => user.age > 19)
+        }
+      }
+    })
+
+    window.app = app
+  </script>
+</body>
+
+</html>

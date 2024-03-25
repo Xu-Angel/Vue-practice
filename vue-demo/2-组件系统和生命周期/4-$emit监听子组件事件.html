@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Foo的myclick事件 -->
+    <Foo @myclick="handleClick"></Foo>
+    <div>{{msg}} {{count}}</div>
+  </div>
+</body>
+
+<script>
+  const Foo = {
+    data() {
+      return {
+        count: 0
+      }
+    },
+    methods: {
+      handleClick() {
+        this.count++
+        // 监听子组件的myclick事件
+        this.$emit('myclick', this.count)
+      }
+    },
+    template: `
+      <div>
+        Foo
+        <button @click="handleClick">click hear</button>
+      </div>
+    `
+  }
+  Vue.component('Foo', Foo)
+  const app = new Vue({
+    el: '#app',
+    data: {
+      msg: 'hello world',
+      count: 0
+    },
+    methods: {
+      handleClick(val) {
+        console.log(val);
+        this.count = val
+      }
+    },
+  })
+
+  window.app = app
+</script>
+
+</html>

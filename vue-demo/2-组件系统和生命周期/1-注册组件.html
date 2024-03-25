@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    // 注册组件 1.全局 2.局部
+    // 注意：1.data 2.只能有一个根节点
+
+    const Bar = {
+      template: '<div>Bar</div>'
+    }
+
+    const Foo = {
+      // 局部注册
+      components: {
+        Bar
+      },
+      data() {
+        return {
+          count: 1
+        }
+      },
+      template: `<div>
+        {{count}}
+        <Bar></Bar>
+        </div>`
+    }
+
+    // 全局注册：组件要注册之后才可以调用
+    Vue.component('Foo', Foo)
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello'
+      },
+      // 只能有一个根节点
+      template: `<div>
+        <Foo></Foo>
+        <Foo></Foo>
+      </div>`
+    })
+  </script>
+</body>
+
+</html>

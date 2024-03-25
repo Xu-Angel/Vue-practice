@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    {{msg}}---{{count}}---{{hello1}}---{{hello2}}
+    <div>{{color1}}---{{color2}}---{{mixins}}</div>
+    <div>{{user.age}}---{{user.name}}</div>
+    <button @click="handleClick">click then count increase</button>
+  </div>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello world',
+        count: 0,
+        hello1: '',
+        hello2: '',
+        user: {
+          name: 'zhangsan',
+          age: 20
+        },
+        color1: 'red',
+        color2: 'yellow',
+        mixins: ''
+      },
+      methods: {
+        handleClick() {
+          this.count++
+        },
+      },
+      watch: {
+        // 1、异步请求数据：app.count = 1时
+        count: async function (n, o) {
+          console.log('watch-count', n, o);
+          // todo -> fetch -> data
+          let res = await fetch('http://localhost:8888')
+          let msg = await res.text()
+          this.msg = msg
+        },
+        // 2、多个值去依赖一个属性时：多对一
+        msg(n, o) {
+          console.log('watch-msg', n)
+          this.hello1 = n + '1'
+          this.hello2 = n + '2'
+        },
+        // 3、deep-深度观察: 对象中的属性发生变化时
+        user: {
+          // 若没有deep，当user中的属性发生改变时，此函数不会执行
+          handler(n, o) {
+            console.log('user', n, o)
+          },
+          deep: true
+        },
+        // 只观察对象中指定的key属性
+        'user.age': {
+          handler(n, o) {
+            console.log('user.age', n, o)
+          }
+        },
+        // 4、立即执行: true-数据在初始化时候就开始执行，false-等mixins发生变化时候才执行
+        mixins: {
+          handler(n, o) {
+            console.log('mixins')
+            this.color1 = `color1 ${n}`
+            this.color2 = `color2 ${n}`
+          },
+          immediate: true
+        }
+      }
+    })
+
+    // 浏览器端使用
+    window.app = app
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
+<script>
+  // 鼠标移动逻辑
+  const MousemoveMixin = {
+    data() {
+      return {
+        x: 0,
+        y: 0
+      }
+    },
+    methods: {
+      handleMouseMove(e) {
+        this.x = e.pageX
+        this.y = e.pageY
+      }
+    },
+    mounted() {
+      window.addEventListener('mousemove', this.handleMouseMove)
+    },
+    destroyed() {
+      window.removeEventListener('mousemove', this.handleMouseMove)
+    },
+  }
+  // mixin问题 1.来源未知 2.命名冲突
+  const Foo = {
+    mixins: [MousemoveMixin],
+    template: `
+      <div>
+        Foo
+        {{x}}--{{y}}
+      </div>
+    `
+  }
+  Vue.component('Foo', Foo)
+  const app = new Vue({
+    el: '#app',
+    template: `
+      <Foo></Foo>
+    `
+  })
+</script>
+
+</html>

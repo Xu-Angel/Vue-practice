@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    {{msg}}
+    <div v-if="age===18">你好 {{age}}</div>
+    <div v-else-if="age===19">我不好了 {{age}}</div>
+    <div v-else>年纪是 {{age}}</div>
+    <div v-if="count===1">v-if count === {{count}}</div>
+    <div v-show="count===1">v-show count === {{count}}</div>
+  </div>
+  <script>
+    // v-if 如果不匹配的话，dom不会渲染
+    // v-if 使用条件少 懒加载，减少首屏渲染开销
+    // v-if vs v-show
+    // v-show通过css控制显示和隐藏
+    // v-show 频繁使用的时候 减少切换开销
+    const app = new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello world',
+        age: 18,
+        count: 0
+      }
+    })
+
+    window.app = app
+  </script>
+</body>
+
+</html>

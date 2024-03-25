@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div>
+      root app
+      <!-- <input v-model="showFoo"> -->
+      <!-- 等价于 -->
+      <!-- <input :value="showFoo" @input="showFoo=$event.target.value"> -->
+
+      <Foo v-model="showFoo"></Foo>
+      <!-- 等价于 -->
+      <Foo :value="showFoo" @close="showFoo=$event.target.value"></Foo>
+
+      <Bar v-model="showBar"></Bar>
+    </div>
+  </div>
+</body>
+
+<script>
+  // 使用自定义的v-model
+  const Foo = {
+    // 将值属性showFoo绑定在visible上
+    // close事件被触发时，新的showFoo值通过close事件抛出
+    props: ['visible'],
+    model: {
+      prop: 'visible', // 默认是value
+      event: 'close' // 默认是input
+    },
+    data() {
+      return {
+        count: 1,
+      }
+    },
+    methods: {
+      handleClose() {
+        this.$emit('close', false)
+      },
+      handleClick() {
+        this.$emit('myclick', '666')
+      }
+    },
+    template: `
+      <div v-if="visible">
+        foo
+        <button @click="handleClose">close</button>
+        <button @click="handleClick">click</button>
+      </div>
+    `
+  }
+
+  // 使用默认的v-model
+  const Bar = {
+    props: ['value'],
+    methods: {
+      handleClose() {
+        this.$emit('input', false)
+      }
+    },
+    template: `
+      <div v-if="value">
+        Bar
+        <button @click="handleClose">close Bar</button>
+      </div>
+    `
+  }
+
+
+  Vue.component('Foo', Foo)
+  Vue.component('Bar', Bar)
+  const app = new Vue({
+    el: '#app',
+    data: {
+      showFoo: true,
+      showBar: true
+    }
+  })
+</script>
+
+</html>

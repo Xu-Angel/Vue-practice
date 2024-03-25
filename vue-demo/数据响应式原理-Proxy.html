@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"> {} {{{message}} </div>
+  <script>
+    /**
+     * 大胡子语法
+      - 把数据渲染到视图中：找到大胡子语法，将大胡子中的变量匹配出来，在data中找到响应的变量，然后替换
+     *
+    */ 
+    class Vue extends EventTarget{
+      constructor(options) {
+        super()
+        this.el = options.el
+        this.data = options.data
+        this.proxy = null
+        this.init()
+      }
+      init() {
+        this.observer()
+        this.domCompiled()
+      }
+      domCompiled() {
+        const dom = document.querySelector(this.el)
+        const {textContent} = dom
+        const regexp = /\{\{\s*([a-zA-Z_]+\w*)\s*\}\}/.test(textContent) // 使用正则表达式匹配出大胡子语法
+        if (regexp) {
+          const key = RegExp.$1 // 匹配第一组，获取变量
+          dom.textContent = this.proxy[key]
+          this.addEventListener(key, function(e) {
+            dom.textContent = e.detail
+          })
+        }        
+      }
+      observer() {
+        const _this = this
+        this.proxy = new Proxy(this.data, {
+          get(target, key) {
+            console.log('get', Reflect.get(target, key));
+            return Reflect.get(target, key)
+          },
+          set(target, key, newValue) {
+            console.log('set', newValue);
+            _this.dispatchEvent(new CustomEvent(key, {
+              'detail': newValue
+            }))
+            return Reflect.set(target, key, newValue)
+          }
+        })
+        console.log(this.proxy.message);
+      }
+    }
+    const app = new Vue({
+      el: '#app',
+      data: {
+        message: 'hello world'
+      }
+    })
+    window.app = app    
+  </script>
+</body>
+</html>

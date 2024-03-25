@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    {{obj.title}}---{{obj.name}}
+    <Foo :obj.sync="obj"></Foo>
+  </div>
+</body>
+
+<script>
+  const Foo = {
+    props: ['obj'],
+    created() {
+      console.log(this.obj)
+    },
+    watch: {
+      obj: {
+        handler(n, o) {
+          this.$emit('update:obj', this.obj)
+        },
+        deep: true
+      }
+    },
+    template: `
+      <div>
+        Foo: {{obj.title}}---{{obj.name}}
+        <input type="text" v-model="obj.title">
+        <input type="text" v-model="obj.name">
+      </div>
+    `
+  }
+  Vue.component('Foo', Foo)
+  new Vue({
+    el: '#app',
+    data: {
+      obj: {
+        title: 'my-component',
+        name: 'zy'
+      }
+    }
+  })
+</script>
+
+</html>

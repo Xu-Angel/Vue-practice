@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    // 注册组件 1.全局 2.局部
+    // 注意：1.data 2.只能有一个根节点
+
+    const Bar = {
+      data() {
+        return {
+          my: 'zy',
+          show: true
+        }
+      },
+      beforeCreate() {
+        console.log('bar-beforeCreate')
+      },
+      created() {
+        console.log('bar-created')
+      },
+      beforeMount() {
+        console.log('bar-beforeMount')
+      },
+      mounted() {
+        console.log('bar-mounted')
+      },
+      beforeUpdate() {
+        console.log('bar-beforeUpdate')
+      },
+      updated() {
+        console.log('bar-updated')
+      },
+      beforeDestroy() {
+        console.log('bar-beforeDestroy')
+      },
+      destroyed() {
+        console.log('bar-destroyed')
+      },
+      template: '<div>Bar {{my}}</div>'
+    }
+
+    const Cp = {
+      data() {
+        return {
+          my: 'cp'
+        }
+      },
+      beforeCreate() {
+        console.log('cp-beforeCreate')
+      },
+      created() {
+        console.log('cp-created')
+      },
+      beforeMount() {
+        console.log('cp-beforeMount')
+      },
+      mounted() {
+        console.log('cp-mounted')
+      },
+      beforeUpdate() {
+        console.log('cp-beforeUpdate')
+      },
+      updated() {
+        console.log('cp-updated')
+      },
+      beforeDestroy() {
+        console.log('cp-beforeDestroy')
+      },
+      destroyed() {
+        console.log('cp-destroyed')
+      },
+      template: '<div>cp {{my}}</div>'
+    }
+
+
+    const Foo = {
+      // 局部注册
+      components: {
+        Bar,
+        Cp
+      },
+      data() {
+        return {
+          count: 1,
+          show: true,
+          bl: true
+        }
+      },
+
+      // 创建
+      beforeCreate() {
+        console.log('foo-beforeCreate')
+      },
+      created() {
+        // 数据初始化完成，事件注入完成等
+        // 在此处执行异步请求，获取数据
+        console.log('foo-created')
+      },
+
+      // 挂载
+      beforeMount() {
+        console.log('foo-beforeMount')
+      },
+      mounted() {
+        // 模板渲染完成等
+        // 直接用created阶段获取的数据
+        // 若是在此阶段获取异步请求数据，dom会因为数据变化而发生重绘，消耗渲染性能
+        console.log('foo-mounted')
+      },
+
+      // 更新
+      beforeUpdate() {
+        console.log('foo-beforeUpdate')
+      },
+      updated() {
+        console.log('foo-updated')
+      },
+
+      // 销毁
+      beforeDestroy() {
+        console.log('foo-beforeDestroy')
+      },
+      destroyed() {
+        console.log('foo-destroyed')
+      },
+
+      // count发生变化时候，调用组件的更新钩子beforeUpdate updated
+      // show=false，调用更新钩子，子组件调用销毁钩子
+      template: `<div>
+        {{count}}
+        <Bar v-if="show"></Bar>
+        <Cp></Cp>
+        </div>`
+    }
+
+    // 全局注册：组件要注册之后才可以调用
+    Vue.component('Foo', Foo)
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello',
+        vshow: true,
+        bl: true
+      },
+
+      // 只能有一个根节点
+      // vshow为false时，调用Foo组件的销毁钩子beforeDestroy，destroyed
+      template: `<div>
+        <Foo v-if="vshow" v-show="bl"></Foo>
+      </div>`
+    })
+
+    window.app = app
+  </script>
+</body>
+
+</html>

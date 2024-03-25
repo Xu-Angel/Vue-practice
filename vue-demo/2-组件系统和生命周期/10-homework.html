@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
+<script>
+  const PhotoItem = {
+    props: ['imgUrl', 'imgName'],
+    mounted() {
+      this.showImg()
+    },
+    methods: {
+      showImg() {
+        const img = document.createElement('img')
+        img.src = this.imgUrl
+        img.alt = this.imgName
+        img.onload = function () {
+          document.querySelector('.img-container').appendChild(img)
+        }
+      }
+    },
+    template: `
+      <div class="img-container"></div>
+    `
+  }
+  Vue.component('PhotoItem', PhotoItem)
+  const app = new Vue({
+    el: '#app',
+    data: {
+      imgUrl: './avatar.jpg',
+      imgName: 'avatar.jpg'
+    },
+    template: `<PhotoItem :imgUrl="imgUrl" :imgName="imgName"></PhotoItem>`
+  })
+</script>
+
+</html>
